@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatInputModule } from '@angular/material';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import {ClientObject} from './../../models/client-object.model';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-client-add',
@@ -8,6 +11,7 @@ import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
   styleUrls: ['./client-add.component.css']
 })
 export class ClientAddComponent implements OnInit {
+  private basePath1 ="http://192.168.56.1:49574/crm-api/clients";
 
   rejectionOptions : { id:number, value: string }[];
   rejectionReason : string;
@@ -18,7 +22,8 @@ export class ClientAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ClientAddComponent>,
-    public dialog: MatDialog)
+    public dialog: MatDialog,
+    private http: HttpClient)
     {
     }
 
@@ -54,13 +59,15 @@ export class ClientAddComponent implements OnInit {
   }
 
   newHero(formClient) {
-    console.log(formClient.name);
-    console.log(formClient.firstLastName);
-    console.log(formClient.secondLastName);
-    console.log(formClient.dni);
-    console.log(formClient.address);
-    console.log(formClient.phone);
-    console.log(this.rating);
+      var newProduct = new ClientObject({
+         name: formClient.name, lastName : formClient.firstLastName+""+formClient.secondLastName, ci : formClient.dni, 
+         address : formClient.address, phone: formClient.phone, ranking: formClient.rating,
+       });
+       console.log(newProduct);
+       const options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json', })
+      };
+      return this.http.post<any>(this.basePath1 + 'products', JSON.stringify(newProduct),options);
   }
 
   get formControls() { return this.formClient.controls; }
