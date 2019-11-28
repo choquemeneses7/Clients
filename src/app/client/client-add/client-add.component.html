@@ -1,1 +1,42 @@
-<p>client-add works!</p>
+<form [formGroup]="formClient">
+    <div class="mat-form-field">
+        <h2>Ingrese los datos del nuevo cliente</h2><br>
+      <mat-form-field hintLabel="Max 30 caracteres">
+        <input id="name" matInput #input maxlength="30" placeholder="Ingrese su Nombre(s)" formControlName="name" required  >
+      </mat-form-field>
+  
+      <mat-form-field hintLabel="Max 20 characters">
+        <input id="firstLastName" matInput #input maxlength="20" placeholder="Ingrese Su Primer Apellido" formControlName="firstLastName" required>
+      </mat-form-field>
+  
+      <mat-form-field hintLabel="Max 20 characters">
+        <input id="secondLastName" matInput #input maxlength="20" placeholder="Ingrese Su Segundo Apellido" formControlName="secondLastName" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input id="dni" matInput #input maxlength="20" placeholder="Cédula de Identidad" formControlName="dni" required>
+      </mat-form-field>
+  
+      <mat-form-field hintLabel="Max 50 characters">
+        <input id="address" matInput #input maxlength="50" placeholder="Direccion" formControlName="address" required>
+      </mat-form-field>
+  
+      <mat-form-field hintLabel="Max 10 characters">
+        <input id="phone" matInput #input maxlength="10" placeholder="Teléfono" formControlName="phone" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-select placeholder="Selecciona un Rating" id="rating" formControlName="rating" (selectionChange)="selectedRating($event)">
+          <mat-option value="0">0</mat-option>
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="4">4</mat-option>
+          <mat-option value="5">5</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="example-button-row">
+        <button mat-raised-button color="primary" (click)="newHero(formClient.value);">Registrar</button>
+      </div>
+    </div>
+  </form>
