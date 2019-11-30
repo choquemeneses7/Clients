@@ -77,7 +77,6 @@ export class AppComponent {
         }*/
         this.dataSource = new MatTableDataSource<ClientObject>(this.clients);
         if (this.clientsLengthBefore == undefined) {
-          console.log(this.clients.length);
           this.clientsLengthBefore = this.clients.length;
         }
         else {
@@ -112,7 +111,6 @@ export class AppComponent {
   }
 
   openDeleteClientForm(Client : ClientObject) {
-    console.log(Client.clientId);
     this.clientService.deleteClient(Client.clientId).subscribe(response => response);
   }
 

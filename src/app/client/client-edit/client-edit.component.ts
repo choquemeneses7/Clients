@@ -53,8 +53,7 @@ export class ClientEditComponent implements OnInit {
        name: formClient.name, lastName : formClient.lastName, ci : formClient.dni, 
        address : formClient.address, phone: formClient.phone, ranking: formClient.rating
      });
-     console.log(newClient);
-     this.clientService.editClient(newClient,this.client.clientId).subscribe(response => response);
+     this.clientService.editClient(newClient,this.client.clientId).subscribe(response => {console.log(response)});
   }
 
   selectedRating(event: any) {

@@ -32,7 +32,8 @@
         </mat-select>
       </mat-form-field>
       <div class="example-button-row">
-        <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="createClient(formClient.value);">Registrar</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="createClient(formClient.value);" [disabled]="!formClient.valid">Registrar</button>
+        <button class = "secondary" mat-button mat-dialog-close>Cancelar</button>
       </div>
     </div>
   </form>

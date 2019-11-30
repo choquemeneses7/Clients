@@ -64,8 +64,7 @@ export class ClientAddComponent implements OnInit {
          name: formClient.name, lastName : formClient.lastName, ci : formClient.dni, 
          address : formClient.address, phone: formClient.phone, ranking: formClient.rating
        });
-       console.log(newClient);
-       this.clientService.addNewClient(newClient).subscribe(response => response);
+       this.clientService.addNewClient(newClient).subscribe(response => {console.log(response)});
   }
 
   get formControls() { return this.formClient.controls; }
