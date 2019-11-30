@@ -1,0 +1,21 @@
+[
+{
+    "name": "string",
+    "lastName": "string",
+    "ci":"string",
+    "address":"string",
+    "phone":123,
+    "ranking":1,
+    "clientId":"string"
+  },
+  {
+    "name": "string2",
+    "lastName": "string2",
+    "ci":"string2",
+    "address":"string2",
+    "phone":1232,
+    "ranking":5,
+    "clientId":"string2"
+  }
+
+]

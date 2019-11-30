@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ClientAddComponent } from './client/client-add/client-add.component';
+import { ClientService} from './services/client.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
@@ -11,11 +12,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ClientEditComponent } from './client/client-edit/client-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClientAddComponent
+    ClientAddComponent,
+    ClientEditComponent
   ],
   imports: [
     BrowserModule,
@@ -27,12 +32,17 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     MatButtonModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   entryComponents: [    
-    ClientAddComponent
+    ClientAddComponent,
+    ClientEditComponent
   ],
-  providers: [],
+  providers: [
+    ClientService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

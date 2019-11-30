@@ -1,51 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatInputModule } from '@angular/material';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {ClientObject} from './../../models/client-object.model';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { ClientService } from './../../services/client.service'
+import { DialogData } from '../../app.component';
+
 
 @Component({
-  selector: 'app-client-add',
-  templateUrl: './client-add.component.html',
-  styleUrls: ['./client-add.component.css']
+  selector: 'app-client-edit',
+  templateUrl: './client-edit.component.html',
+  styleUrls: ['./client-edit.component.css']
 })
-export class ClientAddComponent implements OnInit {
-
+export class ClientEditComponent implements OnInit {
   rejectionOptions : { id:number, value: string }[];
   rejectionReason : string;
   selectedOption:number;
   formClient : FormGroup;
   rating : number;
   clientService : ClientService;
+  client : ClientObject;
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ClientAddComponent>,
+    public dialogRef: MatDialogRef<ClientEditComponent>,
     public dialog: MatDialog,
-    private http: HttpClient)
-    {
-      this.clientService = new ClientService(http);
-    }
-
+    private http: HttpClient,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) { 
+    this.clientService = new ClientService(http);
+  }
 
   ngOnInit() {
+    this.client = this.data['client'];
     this.createClientForm();
-  }
-
-  openDialog(): void {
-    this.dialogRef.close(this.getRejectionOption());
-    this.dialogRef.close(true);
-  }
-
-  getRejectionOption(){
-  this.rejectionOptions.forEach(option => {
-    if (option.id == this.selectedOption) {
-      this.rejectionReason = option.value; 
-    }
-  });
-  return this.rejectionReason;
   }
 
   createClientForm() {
@@ -55,23 +44,20 @@ export class ClientAddComponent implements OnInit {
       dni: ['', [Validators.required, Validators.pattern("[0-9]+")]],
       address: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern("[0-9]+")]],
-      rating: ['']
+      rating: [this.client.ranking+""]
     });
   }
 
-  createClient(formClient) {
-      var newClient = new ClientObject({
-         name: formClient.name, lastName : formClient.lastName, ci : formClient.dni, 
-         address : formClient.address, phone: formClient.phone, ranking: formClient.rating
-       });
-       console.log(newClient);
-       this.clientService.addNewClient(newClient).subscribe(response => response);
+  updateClient(formClient) {
+    var newClient = new ClientObject({
+       name: formClient.name, lastName : formClient.lastName, ci : formClient.dni, 
+       address : formClient.address, phone: formClient.phone, ranking: formClient.rating
+     });
+     console.log(newClient);
+     this.clientService.editClient(newClient,this.client.clientId).subscribe(response => response);
   }
-
-  get formControls() { return this.formClient.controls; }
 
   selectedRating(event: any) {
     this.rating = event.value;
-    console.log(this.rating);
   }
 }
