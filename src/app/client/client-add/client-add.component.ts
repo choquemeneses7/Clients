@@ -71,6 +71,5 @@ export class ClientAddComponent implements OnInit {
 
   selectedRating(event: any) {
     this.rating = event.value;
-    console.log(this.rating);
   }
 }
