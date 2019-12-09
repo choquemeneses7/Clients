@@ -7,6 +7,7 @@ import {ClientObject} from './models/client-object.model';
 import { ClientService } from './services/client.service';
 import * as data from './clients.json'
 import { ClientEditComponent } from './client/client-edit/client-edit.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export interface DialogData {
 }
@@ -30,10 +31,12 @@ export class AppComponent {
   @ViewChild(MatSort,{static: false}) sort: MatSort;
   clientSeleted: ClientObject;
   products:  any  = (data  as  any).default;
+  durationInSeconds = 5;
 
   constructor(
     public dialog: MatDialog,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private _snackBar: MatSnackBar
   ) { 
   }
 
@@ -68,13 +71,53 @@ export class AppComponent {
 
   public fillTable() {
     this.clients = [];
-      this.clientService.getClients().subscribe(clients => { 
+      /* this.clientService.getClients().subscribe(clients => { 
         for (var j = 0; j<clients.length;j++) {
           this.clients.push(clients[j]);
         }
         /*for (var j = 0; j<this.products.length;j++) {
           this.clients.push(this.products[j]);
-        }*/
+        }/
+        this.dataSource = new MatTableDataSource<ClientObject>(this.clients);
+        if (this.clientsLengthBefore == undefined) {
+          this.clientsLengthBefore = this.clients.length;
+        }
+        else {
+          if(this.clientsLengthBefore < this.clients.length){
+            this.clientsLengthBefore = this.clients.length
+            let maxItemId = Math.max.apply(Math, this.clients.map(function (client) { return client.clientId; }));
+            let itemPositionIndex = this.clients.findIndex(client => client.clientId === maxItemId);
+            this.pageIndex = Math.trunc(itemPositionIndex / this.paginator.pageSize);
+            //this.notifier.notify( 'success', 'El producto fue añadido correctamente' );
+          } else if (this.clientsLengthBefore == this.clients.length) {
+            if (this.clientSeleted) {
+              let itemPositionIndex = this.clients.findIndex(client => client.clientId === this.clientSeleted.clientId);
+              this.pageIndex = Math.trunc(itemPositionIndex / this.paginator.pageSize);
+              this.clientSeleted = null;
+            } else {
+              this.pageIndex = this.paginator.pageIndex;
+            }
+          } else if (this.clientsLengthBefore > this.clients.length) {
+            this.clientsLengthBefore = this.clients.length
+            this.pageIndex = 0;
+          }
+
+        }
+        
+        setTimeout(() => {
+          this.paginator.pageIndex = this.pageIndex;
+          this.dataSource = new MatTableDataSource<ClientObject>(this.clients);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }, 500);
+      })*/
+    this.clientService.getClients()
+      //.then(clients => console.log('entro al then + ' + clients))
+      //.catch(error => this.$emmit('snackbar', error)); 
+      .then(clients => clients => { 
+        for (var j = 0; j<clients.length;j++) {
+          this.clients.push(clients[j]);
+        }
         this.dataSource = new MatTableDataSource<ClientObject>(this.clients);
         if (this.clientsLengthBefore == undefined) {
           this.clientsLengthBefore = this.clients.length;
@@ -108,14 +151,26 @@ export class AppComponent {
           this.dataSource.sort = this.sort;
         }, 500);
       })
+      .catch(error => {console.log(error);
+        this.openSnackBar("❌No Se Pudieron Obtener los Clientes","Cerrar")},
+      ); 
   }
 
   openDeleteClientForm(Client : ClientObject) {
-    this.clientService.deleteClient(Client.clientId).subscribe(response => response);
+    this.clientService.deleteClient(Client.clientId)
+    .then(response => response)
+    .catch(error => {console.log(error);
+      this.openSnackBar("❌Error al borrar el cliente","Cerrar")});
   }
 
   getTitleCol() {
     this.displayedColumns = ['name','lastName','ci','address','phone','ranking'];
     this.displayedColumns.push('action');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 }

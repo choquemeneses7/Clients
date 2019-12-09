@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ClientAddComponent } from './client/client-add/client-add.component';
+import { ClientEditComponent } from './client/client-edit/client-edit.component';
 import { ClientService} from './services/client.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,7 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ClientEditComponent } from './client/client-edit/client-edit.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ClientEditComponent } from './client/client-edit/client-edit.component'
     MatDialogModule,
     HttpClientModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule
   ],
   entryComponents: [    
     ClientAddComponent,

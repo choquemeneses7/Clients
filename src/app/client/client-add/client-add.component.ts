@@ -5,6 +5,7 @@ import {ClientObject} from './../../models/client-object.model';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { ClientService } from './../../services/client.service'
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-client-add',
@@ -24,7 +25,8 @@ export class ClientAddComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ClientAddComponent>,
     public dialog: MatDialog,
-    private http: HttpClient)
+    private http: HttpClient,
+    private _snackBar: MatSnackBar)
     {
       this.clientService = new ClientService(http);
     }
@@ -64,12 +66,21 @@ export class ClientAddComponent implements OnInit {
          name: formClient.name, lastName : formClient.lastName, ci : formClient.dni, 
          address : formClient.address, phone: formClient.phone, ranking: formClient.rating
        });
-       this.clientService.addNewClient(newClient).subscribe(response => {console.log(response)});
+       this.clientService.addNewClient(newClient)
+        .then(
+          response => {console.log(response)})
+        .catch(error => {console.log(error);
+          this.openSnackBar("❌Error al añadir el cliente","Cerrar")});
   }
 
   get formControls() { return this.formClient.controls; }
 
   selectedRating(event: any) {
     this.rating = event.value;
+  }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 }

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { ClientService } from './../../services/client.service'
 import { DialogData } from '../../app.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class ClientEditComponent implements OnInit {
     public dialogRef: MatDialogRef<ClientEditComponent>,
     public dialog: MatDialog,
     private http: HttpClient,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private _snackBar: MatSnackBar
   ) { 
     this.clientService = new ClientService(http);
   }
@@ -53,10 +55,19 @@ export class ClientEditComponent implements OnInit {
        name: formClient.name, lastName : formClient.lastName, ci : formClient.dni, 
        address : formClient.address, phone: formClient.phone, ranking: formClient.rating
      });
-     this.clientService.editClient(newClient,this.client.clientId).subscribe(response => {console.log(response)});
+     this.clientService.editClient(newClient,this.client.clientId)
+     .then(response => {console.log(response)})
+     .catch(error => {console.log(error);
+      this.openSnackBar("❌Error al editar el cliente","Cerrar")});
   }
 
   selectedRating(event: any) {
     this.rating = event.value;
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 }
