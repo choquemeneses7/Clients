@@ -5,7 +5,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {ClientAddComponent} from './client/client-add/client-add.component';
 import {ClientObject} from './models/client-object.model';
 import { ClientService } from './services/client.service';
-import * as data from './clients.json'
 import { ClientEditComponent } from './client/client-edit/client-edit.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -30,7 +29,6 @@ export class AppComponent {
   @ViewChild(MatPaginator,{static: false}) paginator: MatPaginator;
   @ViewChild(MatSort,{static: false}) sort: MatSort;
   clientSeleted: ClientObject;
-  products:  any  = (data  as  any).default;
   durationInSeconds = 5;
 
   constructor(
@@ -71,49 +69,7 @@ export class AppComponent {
 
   public fillTable() {
     this.clients = [];
-      /* this.clientService.getClients().subscribe(clients => { 
-        for (var j = 0; j<clients.length;j++) {
-          this.clients.push(clients[j]);
-        }
-        /*for (var j = 0; j<this.products.length;j++) {
-          this.clients.push(this.products[j]);
-        }/
-        this.dataSource = new MatTableDataSource<ClientObject>(this.clients);
-        if (this.clientsLengthBefore == undefined) {
-          this.clientsLengthBefore = this.clients.length;
-        }
-        else {
-          if(this.clientsLengthBefore < this.clients.length){
-            this.clientsLengthBefore = this.clients.length
-            let maxItemId = Math.max.apply(Math, this.clients.map(function (client) { return client.clientId; }));
-            let itemPositionIndex = this.clients.findIndex(client => client.clientId === maxItemId);
-            this.pageIndex = Math.trunc(itemPositionIndex / this.paginator.pageSize);
-            //this.notifier.notify( 'success', 'El producto fue añadido correctamente' );
-          } else if (this.clientsLengthBefore == this.clients.length) {
-            if (this.clientSeleted) {
-              let itemPositionIndex = this.clients.findIndex(client => client.clientId === this.clientSeleted.clientId);
-              this.pageIndex = Math.trunc(itemPositionIndex / this.paginator.pageSize);
-              this.clientSeleted = null;
-            } else {
-              this.pageIndex = this.paginator.pageIndex;
-            }
-          } else if (this.clientsLengthBefore > this.clients.length) {
-            this.clientsLengthBefore = this.clients.length
-            this.pageIndex = 0;
-          }
-
-        }
-        
-        setTimeout(() => {
-          this.paginator.pageIndex = this.pageIndex;
-          this.dataSource = new MatTableDataSource<ClientObject>(this.clients);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }, 500);
-      })*/
     this.clientService.getClients()
-      //.then(clients => console.log('entro al then + ' + clients))
-      //.catch(error => this.$emmit('snackbar', error)); 
       .then(clients => clients => { 
         for (var j = 0; j<clients.length;j++) {
           this.clients.push(clients[j]);
@@ -128,7 +84,6 @@ export class AppComponent {
             let maxItemId = Math.max.apply(Math, this.clients.map(function (client) { return client.clientId; }));
             let itemPositionIndex = this.clients.findIndex(client => client.clientId === maxItemId);
             this.pageIndex = Math.trunc(itemPositionIndex / this.paginator.pageSize);
-            //this.notifier.notify( 'success', 'El producto fue añadido correctamente' );
           } else if (this.clientsLengthBefore == this.clients.length) {
             if (this.clientSeleted) {
               let itemPositionIndex = this.clients.findIndex(client => client.clientId === this.clientSeleted.clientId);
