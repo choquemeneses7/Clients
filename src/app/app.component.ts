@@ -70,7 +70,8 @@ export class AppComponent {
   public fillTable() {
     this.clients = [];
     this.clientService.getClients()
-      .then(clients => clients => { 
+      .then( response => { 
+        const clients = response as ClientObject[];
         for (var j = 0; j<clients.length;j++) {
           this.clients.push(clients[j]);
         }

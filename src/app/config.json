@@ -1,3 +1,4 @@
 {
-    "API_URL" : "http://192.168.0.17:5000/crm-api/clients"
+    "API_URL" : "http://192.168.137.1:5000",
+    "clientsResource": "crm-api/clients"
 }
