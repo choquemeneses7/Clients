@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatInputModule } from '@angul
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {ClientObject} from './../../models/client-object.model';
 import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 import { ClientService } from './../../services/client.service'
 import { DialogData } from '../../app.component';
 import {MatSnackBar} from '@angular/material/snack-bar';

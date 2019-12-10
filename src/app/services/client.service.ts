@@ -19,11 +19,9 @@ export class ClientService {
     return new Promise((resolve, reject) => {
       return this.http.get<ClientObject[]>(this.basePath+"/"+this.resourcePath+"/"+id).subscribe(
         response => {
-          console.log('el gabo vino a clases')
           resolve(response)
         },
         error => {
-          console.log('hubo un error');
           reject('ERROR en http: ' + error)
         }
       );
@@ -34,11 +32,9 @@ export class ClientService {
     return new Promise((resolve, reject) => {
       this.http.get<ClientObject[]>(this.basePath+"/"+this.resourcePath).subscribe(
         response => {
-          console.log('el gabo vino a clases');
           resolve(response)
         },
         error => {
-          console.log('hubo un error');
           reject('ERROR en http: ' + error)
         }
       );
@@ -52,11 +48,9 @@ export class ClientService {
       };
       return this.http.post<any>(this.basePath+"/"+this.resourcePath, JSON.stringify(client),options).subscribe(
         response => {
-          console.log('el gabo vino a clases')
           resolve(response)
         },
         error => {
-          console.log('hubo un error');
           reject('ERROR en http: ' + error)
         }
       );
@@ -70,11 +64,9 @@ export class ClientService {
       };
       return this.http.put<any[]>(this.basePath+"/"+this.resourcePath+'/'+id,JSON.stringify(client),options).subscribe(
         response => {
-          console.log('el gabo vino a clases')
           resolve(response)
         },
         error => {
-          console.log('hubo un error');
           reject('ERROR en http: ' + error)
         }
       );
@@ -88,11 +80,9 @@ export class ClientService {
       };
       return this.http.delete<any>(this.basePath+"/"+this.resourcePath+'/'+id,options).subscribe(
         response => {
-          console.log('el gabo vino a clases')
           resolve(response)
         },
         error => {
-          console.log('hubo un error');
           reject('ERROR en http: ' + error)
         }
       );
